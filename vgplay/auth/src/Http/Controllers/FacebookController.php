@@ -2,16 +2,17 @@
 
 namespace Vgplay\Auth\Http\Controllers;
 
-use Vgplay\Auth\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Vgplay\Auth\Models\User;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\FacebookLoginRequest;
 use Vgplay\ApiHelpers\Helpers\ApiHelper;
+use Vgplay\Auth\Http\Requests\FacebookLoginRequest;
 
 class FacebookController extends Controller
 {
@@ -99,17 +100,51 @@ class FacebookController extends Controller
 
             $user = User::updateOrCreate(
                 ['username' => $username],
-                ['api_data' => $apiRes]
+                ['extras' => (array) ['info' => (array) $apiRes]]
             );
 
-            Auth::login($user);
+            Auth::guard('web')->login($user);
+
+            if (!empty($apiUser['user_token'])) {
+                session(['external_token' => $apiUser['user_token']]);
+            }
+
+            $wallet = null;
+
+            try {
+                $token = $apiUser['user_token'] ?? null;
+
+                if ($token) {
+                    $balanceRaw = ApiHelper::balance($token);
+                    if (is_array($balanceRaw)) {
+                        $wallet = array_merge($balanceRaw, [
+                            'fetched_at' => now()->toISOString(),
+                        ]);
+                    } else {
+                        $wallet = [
+                            'balance'    => (float) $balanceRaw,
+                            'currency'   => $response['user']['currency'] ?? 'VND',
+                            'fetched_at' => now()->toISOString(),
+                        ];
+                    }
+
+                    $user->refresh();
+                    $extras = (array) ($user->extras ?? []);
+                    $extras['wallet'] = $wallet;
+                    $user->extras = $extras;
+                    $user->save();
+
+                    session(['balance' => $wallet ?? null]);
+                }
+            } catch (\Throwable $e) {
+                Log::warning('Fetch balance failed', ['err' => $e->getMessage()]);
+            }
 
             session([
                 'user' => [
                     'username'   => $user->username,
                     'token'      => $apiUser['user_token'] ?? null,
                     'id'         => $apiUser['id'] ?? null,
-                    'info'       => $apiUser,
                 ],
             ]);
 

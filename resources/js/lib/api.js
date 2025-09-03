@@ -1,6 +1,7 @@
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
+axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 axios.defaults.xsrfCookieName = "XSRF-TOKEN";
 axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
 

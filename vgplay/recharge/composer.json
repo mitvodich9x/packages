@@ -1,0 +1,34 @@
+{
+    "name": "vgplay/recharges",
+    "description": "Vgplay recharges",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vgplay\\Recharges\\": "src/",
+            "Vgplay\\Recharges\\Database\\": "Database/",
+            "Vgplay\\Recharges\\Database\\Seeders\\": "Database/Seeders/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mithoangha",
+            "email": "mitvodich@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vgplay\\Recharges\\Providers\\RechargesServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^12.0",
+        "filament/filament": "^4.0",
+        "vgplay/settings": "*",
+        "vgplay/games": "*"
+    },
+    "minimum-stability": "stable"
+}

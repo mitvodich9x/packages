@@ -267,8 +267,9 @@ import { useGameStore } from "@/stores/games";
 import { useAppStore } from "@/stores/useAppStore";
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from "@/stores/auth";
-import { usePage } from "@inertiajs/vue3";
+import { usePage, router } from "@inertiajs/vue3";
 import LoginForm from "@/Components/Form/LoginForm.vue";
+import RoleForm from "@/Components/Form/RoleForm.vue";
 
 const { user, isLoggedIn } = storeToRefs(useAuthStore());
 
@@ -293,11 +294,6 @@ const hoveredCardIndex = ref(null);
 gameStore.setGames(page.props.games);
 
 function handleGameClick(game) {
-    // console.log(`auth.loginType: `, auth.loginTyp);
-    console.log(`=game: `, game);
-    console.log(`auth: `, auth?.user);
-
-    // 1) Chưa đăng nhập → mở form login
     if (!auth.isLoggedIn) {
         store.openDrawer("form", LoginForm, { game }, "Đăng nhập");
         return;
@@ -334,8 +330,8 @@ function handleGameClick(game) {
     }
 
     // 3) Hợp lệ → điều hướng / chọn nhân vật như cũ
-    if (game?.flags?.flags?.check_roles === 0) {
-        router.visit(`/${game.alias}/payment`, {
+    if (game?.flags?.flags?.check_roles === false) {
+        router.visit(`/${game.alias}`, {
             preserveState: true,
             onStart: () => store.loading?.show?.(), // nếu bạn có loader trong useAppStore
             onFinish: () => store.loading?.hide?.(),

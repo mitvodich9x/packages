@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Vgplay\ApiHelpers\Helpers\ApiHelper;
-use App\Http\Requests\FacebookLoginRequest;
-use Vgplay\Auth\Models\UserGame;
+use Vgplay\Auth\Http\Requests\FacebookLoginRequest;
+// use Vgplay\Auth\Models\UserGame;
 
 class AuthController extends Controller
 {
@@ -64,6 +64,18 @@ class AuthController extends Controller
         if (!empty($response['user']['user_token'])) {
             session(['external_token' => $response['user']['user_token']]);
         }
+
+        session(['user' => [
+            'username' => $response['user']['username'],
+            'token' => $response['user']['user_token'],
+            'id' => $response['user']['id']
+        ]]);
+
+        session([
+            'login_type' => 'vgp',
+            'fb_game_id' => null,
+            'fb_game_alias' => null,
+        ]);
 
         $wallet = null;
         try {

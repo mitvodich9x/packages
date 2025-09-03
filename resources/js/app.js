@@ -1,8 +1,9 @@
 import "./bootstrap";
-import './lib/api'; 
+import "./lib/api";
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { createPinia } from "pinia";
+import router from "./router";
 import naive from "naive-ui";
 import { useSettingStore } from "@/stores/settings";
 import { useAuthStore } from "@/stores/auth";
@@ -34,12 +35,13 @@ createInertiaApp({
         const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(pinia)
+            .use(router)
             .use(naive);
 
         // inject settings từ Inertia props
         const authStore = useAuthStore();
         authStore.hydrateFromPage(props.initialPage.props);
-        
+
         const settingStore = useSettingStore(pinia);
         settingStore.setSettings(props.initialPage.props.settings);
 

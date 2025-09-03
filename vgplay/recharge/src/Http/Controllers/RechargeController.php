@@ -1,35 +1,35 @@
 <?php
 
-namespace Vgplay\Games\Http\Controllers;
+namespace Vgplay\Recharges\Http\Controllers;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use MongoDB\BSON\UTCDateTime;
-use Vgplay\Games\Models\Game;
-use Vgplay\Games\Models\Wallet\WalletLog;
+use Vgplay\Recharges\Models\Recharge;
+use Vgplay\Recharges\Models\Wallet\WalletLog;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
-use Vgplay\Games\Services\GameService;
-use Vgplay\Games\Services\RoleService;
+use Vgplay\Recharges\Services\RechargeService;
+use Vgplay\Recharges\Services\RoleService;
 // use Vgplay\Items\Services\ItemService;
 use Illuminate\Support\Facades\Session;
 use Vgplay\ApiHelpers\Helpers\ApiHelper;
 // use Vgplay\Payments\Services\PaymentService;
-use Vgplay\Games\Models\TopDailyRechargeTotal;
+use Vgplay\Recharges\Models\TopDailyRechargeTotal;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Vgplay\Exceptions\Exceptions\Games\GameNotFoundException;
+use Vgplay\Exceptions\Exceptions\Recharges\RechargeNotFoundException;
 use Vgplay\Exceptions\Exceptions\Caches\CacheConnectionFailedException;
 
-class GameController extends Controller
+class RechargeController extends Controller
 {
-    // public function __construct(protected GameService $gameService, protected ItemService $itemService, protected PaymentService $paymentService) {}
-    public function __construct(protected GameService $gameService) {}
+    // public function __construct(protected RechargeService $gameService, protected ItemService $itemService, protected PaymentService $paymentService) {}
+    public function __construct(protected RechargeService $gameService) {}
 
     public function search(Request $request): JsonResponse
     {
@@ -55,7 +55,7 @@ class GameController extends Controller
     {
         try {
             $game = $this->gameService->findByAlias($alias);
-            // $items = $this->itemService->getAllItemByGameId($game['game_id'], true);
+            // $items = $this->itemService->getAllItemByRechargeId($game['game_id'], true);
             // $user = Auth::user()?->api_data['user'];
 
             $recharge = false;
@@ -110,7 +110,7 @@ class GameController extends Controller
             $selectedRole = session('selected_role', []);
 
             $props = [
-                // 'selectedGame' => $game,
+                // 'selectedRecharge' => $game,
                 // 'packages' => $items,
                 // 'userData' => Auth::user()?->api_data['user'],
                 // 'server' => $selectedRole['server_id'] ?? null,
@@ -127,8 +127,8 @@ class GameController extends Controller
                 // 'balance' => $balance
             ];
 
-            return Inertia::render('GamePage', $props);
-        } catch (GameNotFoundException $e) {
+            return Inertia::render('RechargePage', $props);
+        } catch (RechargeNotFoundException $e) {
             return redirect('/')
                 ->with('error', 'Không tìm thấy game với alias: ' . $alias);
         } catch (CacheConnectionFailedException $e) {
@@ -153,7 +153,7 @@ class GameController extends Controller
     //     $recharge = false;
 
     //     if (strtolower($alias) !== 'vxu') {
-    //         $game = Game::where('alias', $alias)->first();
+    //         $game = Recharge::where('alias', $alias)->first();
 
     //         if ($user) {
     //             $user_id = $user['id'];
@@ -245,7 +245,7 @@ class GameController extends Controller
 
         try {
             $vgp_id = $user['id'];
-            $game = app(GameService::class)->findById((int) $gameId);
+            $game = app(RechargeService::class)->findById((int) $gameId);
 
             if (!$game || empty($game['apis']['api_config'])) {
                 return response()->json([
@@ -286,7 +286,7 @@ class GameController extends Controller
 
         try {
             $vgp_id = $user['id'];
-            $game = app(GameService::class)->findById((int) $gameId);
+            $game = app(RechargeService::class)->findById((int) $gameId);
 
             if (!$game || empty($game['apis']['api_config'])) {
                 return response()->json([

@@ -1,0 +1,29 @@
+{
+    "name": "vgplay/api-helpers",
+    "description": "Vgplay API Helpers",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vgplay\\ApiHelpers\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mithoangha",
+            "email": "mitvodich@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vgplay\\ApiHelpers\\Providers\\ApiHelpersServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^12.0"
+    },
+    "minimum-stability": "stable"
+}

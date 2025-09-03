@@ -12,6 +12,26 @@
         {
             "type": "path",
             "url": "vgplay/admins"
+        },
+        {
+            "type": "path",
+            "url": "vgplay/exceptions"
+        },
+        {
+            "type": "path",
+            "url": "vgplay/settings"
+        },
+        {
+            "type": "path",
+            "url": "vgplay/api-helpers"
+        },
+        {
+            "type": "path",
+            "url": "vgplay/auth"
+        },
+        {
+            "type": "path",
+            "url": "vgplay/games"
         }
     ],
     "require": {
@@ -19,9 +39,16 @@
         "filament/filament": "^4.0",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
+        "league/flysystem-ftp": "^3.0",
         "predis/predis": "^3.2",
-        "vgplay/admins": "*"
+        "vgplay/admins": "*",
+        "vgplay/exceptions": "*",
+        "vgplay/api-helpers": "*",
+        "vgplay/auth": "*",
+        "vgplay/games": "*",
+        "vgplay/settings": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -48,7 +75,14 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade"
+            "@php artisan filament:upgrade",
+            "@php artisan mit-admin:install",
+            "@php artisan vgp-setting:install",
+            "@php artisan vgp-game:install",
+            "@php artisan vgp-auth:install",
+            "@php artisan cache:clear",
+            "@php artisan config:cache",
+            "@php artisan optimize:clear"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"

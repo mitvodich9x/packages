@@ -19,9 +19,9 @@ class PermissionPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(Admin $admin, Permission $permission): bool
+    public function view(Admin $admin): bool
     {
-        return false;
+         return $admin->hasRole(['Admin', 'Dev']);
     }
 
     /**
@@ -35,7 +35,7 @@ class PermissionPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(Admin $admin, Permission $permission): bool
+    public function update(Admin $admin): bool
     {
         return $admin->hasRole(['Admin', 'Dev']);
     }
@@ -43,7 +43,7 @@ class PermissionPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(Admin $admin, Permission $permission): bool
+    public function delete(Admin $admin): bool
     {
         return $admin->hasRole(['Admin', 'Dev']);
     }
@@ -51,7 +51,7 @@ class PermissionPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(Admin $admin, Permission $permission): bool
+    public function restore(Admin $admin): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class PermissionPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(Admin $admin, Permission $permission): bool
+    public function forceDelete(Admin $admin): bool
     {
         return false;
     }

@@ -25,6 +25,9 @@ class MitadminPanelProvider extends PanelProvider
     {
         $filamentModules = [
             ['path' => 'vgplay/admins', 'namespace' => 'Vgplay\\Admins'],
+            ['path' => 'vgplay/settings', 'namespace' => 'Vgplay\\Settings'],
+            ['path' => 'vgplay/auth', 'namespace' => 'Vgplay\\Auth'],
+            ['path' => 'vgplay/games', 'namespace' => 'Vgplay\\Games'],
         ];
 
         $panel = $panel

@@ -2,7 +2,8 @@
 
 namespace Vgplay\Admins\Filament\Resources\Roles;
 
-use App\Models\Role;
+use Vgplay\Admins\Models\Role;
+use UnitEnum;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -20,9 +21,22 @@ class RoleResource extends Resource
 {
     protected static ?string $model = Role::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
-    protected static ?string $recordTitleAttribute = 'Vgplay\Admins\Models\Role';
+    protected static string | UnitEnum | null $navigationGroup = 'Tài khoản quản trị viên';
+
+    protected static ?string $navigationLabel = 'Danh sách nhóm quản trị viên';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $breadcrumb = 'Nhóm quản trị viên';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    protected static ?string $navigationBadgeTooltip = 'Tổng số nhóm quản trị viên';
 
     public static function form(Schema $schema): Schema
     {

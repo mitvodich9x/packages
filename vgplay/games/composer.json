@@ -1,0 +1,33 @@
+{
+    "name": "vgplay/games",
+    "description": "Vgplay games",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vgplay\\Games\\": "src/",
+            "Vgplay\\Games\\Database\\": "Database/",
+            "Vgplay\\Games\\Database\\Seeders\\": "Database/Seeders/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mithoangha",
+            "email": "mitvodich@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vgplay\\Games\\Providers\\GamesServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^12.0",
+        "filament/filament": "^4.0",
+        "vgplay/settings": "*"
+    },
+    "minimum-stability": "stable"
+}

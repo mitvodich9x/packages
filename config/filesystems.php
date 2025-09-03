@@ -60,6 +60,16 @@ return [
             'report' => false,
         ],
 
+        'ftp' => [
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST', '1.52.48.5'),
+            'username' => env('FTP_USERNAME', 'ftp-img'),
+            'password' => env('FTP_PASSWORD', 'D4N/LJuSk~8m'),
+            'root' => env('FTP_ROOT', '/recharge'),
+            'url' => env('FTP_URL', 'https://img.vgplay.vn/vgplay/recharge'),
+            'visibility' => 'public',
+        ]
+
     ],
 
     /*

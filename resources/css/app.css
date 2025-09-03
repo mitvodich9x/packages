@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -6,6 +6,203 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: "Lexend Deca", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    --color-primary-rgb: 255, 132, 0;
+    --color-secondary-rgb: 255, 230, 204;
+    --color-webshop-rgb: 4, 190, 4;
+    --color-opacity-rgb: 0, 0, 0;
+    --vgp-color-primary: #ff9138;
+    --vgp-color-secondary: #ffe6cc;
+    --vgp-color-webshop: #04be04;
+    --color-primary: #ff9138;
+}
+
+@keyframes pulseOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+body {
+    background: url("/public/images/bg.webp") top repeat scroll;
+    background-size: 100%;
+    background-attachment: fixed;
+    color: black;
+}
+
+.mcontainer {
+    max-width: 1024px;
+    margin: auto;
+}
+
+::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+}
+
+.n-drawer .n-drawer-content .n-drawer-body-content-wrapper {
+    padding: 0 !important;
+}
+
+.payment .wrap {
+    cursor: pointer;
+}
+/* 
+.payment .wrap .content {
+    display: none;
+} */
+
+/* .payment .wrap.active .payment__icon::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--vgp-color-primary);
+    top: calc(50% - 6px);
+    left: calc(50% - 6px);
+    border-radius: 50%;
+} */
+
+.payment .detail {
+    border-top: 1px solid #ccc;
+}
+
+.payment .purchase {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+        rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+        rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.mfooter a:hover,
+.mfooter a:focus,
+.mfooter a:active {
+    background: var(--vgp-color-primary);
+    color: white;
+}
+
+.mfooter a:hover svg,
+.mfooter a:focus svg,
+.mfooter a:active svg {
+    color: white;
+}
+
+.support__border {
+    overflow: visible;
+    border-radius: 50%;
+}
+
+.support__border::before,
+.support__border::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border: 10px solid var(--vgp-color-primary);
+    border-radius: inherit;
+    animation: pulseOut 2s ease-out infinite;
+    opacity: 0;
+}
+
+.support__border::after {
+    animation-delay: 1s;
+}
+
+.support:hover .mhidden {
+    opacity: 1;
+    right: -240%;
+    transform: translateX(-170%);
+    transition: all 0.5s linear;
+}
+
+.mcard {
+    cursor: pointer;
+}
+
+.wrap:hover .mcard .mtitle,
+.wrap:hover .mcard .amount,
+.wrap.active .mcard .mtitle,
+.wrap.active .mcard .amount,
+.mcard:hover .mtitle,
+.mcard:hover .amount {
+    color: var(--vgp-color-primary) !important;
+}
+
+.n-base-select-option__content {
+    font-weight: 500;
+    color: var(--vgp-color-primary);
+    width: 100%;
+}
+
+.n-base-select-option__content:hover {
+    color: var(--vgp-color-primary);
+}
+
+.n-tabs-tab__label {
+    font-weight: 600;
+}
+
+.n-breadcrumb
+    .n-breadcrumb-item:not(:last-child).n-breadcrumb-item--clickable
+    .n-breadcrumb-item__link:hover {
+    background: none;
+    color: var(--vgp-color-primary);
+}
+
+.triangle-topright {
+    width: 0;
+    height: 0;
+    border-top: 15px solid red;
+    border-left: 15px solid transparent;
+}
+
+.triangle-topright.hot {
+    border-top: 15px solid red;
+}
+
+.triangle-topright.new {
+    border-top: 15px solid green;
+}
+
+.triangle-bottomright {
+    width: 0;
+    height: 0;
+    border-bottom: 15px solid red;
+    border-left: 15px solid transparent;
+}
+
+.triangle-bottomright.hot {
+    border-bottom: 15px solid red;
+}
+
+.triangle-bottomright.new {
+    border-bottom: 15px solid green;
+}
+
+.triangle-topleft {
+    width: 0;
+    height: 0;
+    border-top: 15px solid red;
+    border-right: 15px solid transparent;
+}
+
+.triangle-topleft.hot {
+    border-top: 15px solid red;
+}
+
+.triangle-topleft.new {
+    border-top: 15px solid green;
+}
+.shadow-tag {
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.4));
+}
+
+.n-checkbox .n-checkbox-box .n-checkbox-box__border {
+    border-color: var(--vgp-color-primary);
 }

@@ -1,0 +1,33 @@
+{
+    "name": "vgplay/auth",
+    "description": "Vgplay auth",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vgplay\\Auth\\": "src/",
+            "Vgplay\\Auth\\Database\\": "Database/",
+            "Vgplay\\Auth\\Database\\Seeders\\": "Database/Seeders/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mithoangha",
+            "email": "mitvodich@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vgplay\\Auth\\Providers\\AuthServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^4.0",
+        "laravel/framework": "^12.0",
+        "laravel/sanctum": "^4.0"
+    },
+    "minimum-stability": "stable"
+}

@@ -1,0 +1,33 @@
+{
+    "name": "vgplay/settings",
+    "description": "Vgplay settings",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vgplay\\Settings\\": "src/",
+            "Vgplay\\Settings\\Database\\": "Database/",
+            "Vgplay\\Settings\\Database\\Seeders\\": "Database/Seeders/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mithoangha",
+            "email": "mitvodich@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vgplay\\Settings\\Providers\\SettingsServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^4.0",
+        "laravel/framework": "^12.0",
+        "inertiajs/inertia-laravel": "^2.0"
+    },
+    "minimum-stability": "stable"
+}

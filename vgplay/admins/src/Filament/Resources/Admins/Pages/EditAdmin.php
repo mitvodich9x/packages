@@ -2,8 +2,9 @@
 
 namespace Vgplay\Admins\Filament\Resources\Admins\Pages;
 
-use Filament\Actions\DeleteAction;
+use Vgplay\Admins\Models\Role;
 use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Vgplay\Admins\Filament\Resources\Admins\AdminResource;
 
@@ -59,4 +60,34 @@ class EditAdmin extends EditRecord
                 ->color('danger'),
         ];
     }
+
+    // protected function mutateFormDataBeforeSave(array $data): array
+    // {
+    //     $selectedRoleIds = collect($data['roles'] ?? [])->map(fn($v) => (int) $v)->all();
+
+    //     $selectedPermissionIds = collect($data['permissions'] ?? [])->map(fn($v) => (int) $v)->all();
+
+    //     $inheritedAtHydrate = collect($data['inherited_permission_ids'] ?? [])->map(fn($v) => (int) $v);
+
+    //     if (! empty($selectedRoleIds)) {
+    //         $roleInheritedNow = Role::query()
+    //             ->whereKey($selectedRoleIds)
+    //             ->with('permissions:id')
+    //             ->get()
+    //             ->flatMap(fn($r) => $r->permissions->pluck('id'))
+    //             ->unique();
+
+    //         $inherited = $roleInheritedNow->isNotEmpty() ? $roleInheritedNow : $inheritedAtHydrate;
+    //     } else {
+    //         $inherited = $inheritedAtHydrate;
+    //     }
+
+    //     $directToSync = collect($selectedPermissionIds)->diff($inherited)->values()->all();
+
+    //     $data['permissions'] = $directToSync;
+
+    //     unset($data['inherited_permission_ids']);
+
+    //     return $data;
+    // }
 }

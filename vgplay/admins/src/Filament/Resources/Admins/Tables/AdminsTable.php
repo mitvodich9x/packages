@@ -26,7 +26,8 @@ class AdminsTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('email_verified_at')
                     ->label('Xác thực email')
                     ->dateTime('d-M-Y')
@@ -89,7 +90,7 @@ class AdminsTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()->label('Xoá tất cả'),
-                ]),
+                ])->label('Nhóm hành động'),
             ]);
     }
 }

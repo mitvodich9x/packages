@@ -1,19 +1,19 @@
 <?php
 
-namespace Vgplay\Recharges\Observers;
+namespace Vgplay\Recharge\Observers;
 
-use Vgplay\Recharges\Models\Recharge;
-use Vgplay\Recharges\Services\RechargeService;
+use Vgplay\Recharge\Models\Recharge;
+use Vgplay\Recharge\Services\Rechargeervice;
 
 class RechargeObserver
 {
     // public function saved(Recharge $game): void
     // {
-    //     app(RechargeService::class)->syncAll();
+    //     app(Rechargeervice::class)->syncAll();
     // }
 
     // public function deleted(Recharge $game): void
     // {
-    //     app(RechargeService::class)->syncAll();
+    //     app(Rechargeervice::class)->syncAll();
     // }
 }

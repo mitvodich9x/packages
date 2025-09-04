@@ -136,7 +136,7 @@ const redirectAfterLogin = () => {
                     "Chọn nhân vật"
                 );
             } else {
-                router.visit(`/${intended}/payment`);
+                router.visit(`/${intended}`);
             }
         } else {
             router.visit("/");

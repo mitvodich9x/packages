@@ -32,6 +32,10 @@
         {
             "type": "path",
             "url": "vgplay/games"
+        },
+        {
+            "type": "path",
+            "url": "vgplay/recharge"
         }
     ],
     "require": {
@@ -42,12 +46,14 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-ftp": "^3.0",
+        "mongodb/laravel-mongodb": "*",
         "predis/predis": "^3.2",
         "vgplay/admins": "*",
-        "vgplay/exceptions": "*",
         "vgplay/api-helpers": "*",
         "vgplay/auth": "*",
+        "vgplay/exceptions": "*",
         "vgplay/games": "*",
+        "vgplay/recharge": "*",
         "vgplay/settings": "*"
     },
     "require-dev": {
@@ -80,6 +86,7 @@
             "@php artisan vgp-setting:install",
             "@php artisan vgp-game:install",
             "@php artisan vgp-auth:install",
+            "@php artisan vgp-recharge:install",
             "@php artisan cache:clear",
             "@php artisan config:cache",
             "@php artisan optimize:clear"

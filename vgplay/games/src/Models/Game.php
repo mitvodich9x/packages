@@ -2,11 +2,18 @@
 
 namespace Vgplay\Games\Models;
 
+use Vgplay\Games\Models\GameApi;
+use Vgplay\Recharge\Models\Item;
+use Vgplay\Games\Models\GameFlag;
 use Vgplay\Games\Models\GameAdmin;
-use Vgplay\Items\Models\Item;
+use Vgplay\Games\Models\GameSocial;
+use Vgplay\Recharge\Models\Payment;
+use Vgplay\Games\Models\GameSetting;
+use Vgplay\Recharge\Models\Purchase;
 use Vgplay\Games\Traits\HasFtpAssets;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Game extends Model
@@ -65,10 +72,29 @@ class Game extends Model
         return $this->hasOne(GameSetting::class, 'game_id', 'game_id');
     }
 
-    // public function items(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Item::class, 'game_item', 'game_id', 'item_id');
-    // }
+    public function payments(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Payment::class,        // related
+            'game_payment',        // pivot
+            'game_id',             // this model key on pivot
+            'payment_id',          // related key on pivot
+            'game_id',             // local key on Game
+            'id'                   // related key on Payment
+        )->withPivot(['is_active', 'promotion', 'discount', 'image', 'sort_order'])
+            ->withTimestamps();
+    }
+
+    public function items(): HasMany
+    {
+        // Items của game; riêng unit=vxu thì item.game_id = null (global)
+        return $this->hasMany(Item::class, 'game_id', 'game_id');
+    }
+
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(Purchase::class, 'game_id', 'game_id');
+    }
 
     public function getBannerUrlAttribute(): ?string
     {

@@ -121,18 +121,14 @@ const refreshing = ref(false);
 const games = page.props?.games;
 
 const searchKeyword = ref("");
-// const autoCompleteOptions = ref([]);
-const allGames = page.props?.allGames;
 
 const autoCompleteOptions = games.map((g) => ({
     name: g.name,
-    value: g.game_id, // ✅ chính là game_id
+    value: g.game_id,
     alias: g.alias,
     flags: g.flags,
     icon: g.icon
 }));
-
-console.log("allGame: ", allGames);
 
 console.log("games: ", games);
 

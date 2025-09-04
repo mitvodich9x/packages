@@ -1,6 +1,6 @@
 <?php
 
-namespace Vgplay\Recharges\Policies;
+namespace Vgplay\Recharge\Policies;
 
 use Vgplay\Admins\Models\Admin;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vgplay\Recharges\Database\Seeders;
+namespace Vgplay\Recharge\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
@@ -11,6 +11,7 @@ class RechargeDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(RechargeSeeder::class);
+        $this->call(PaymentSeeder::class);
+        $this->call(VxuItemSeeder::class);
     }
 }

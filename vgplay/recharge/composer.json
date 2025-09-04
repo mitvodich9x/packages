@@ -1,13 +1,13 @@
 {
-    "name": "vgplay/recharges",
-    "description": "Vgplay recharges",
+    "name": "vgplay/recharge",
+    "description": "Vgplay recharge",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Vgplay\\Recharges\\": "src/",
-            "Vgplay\\Recharges\\Database\\": "Database/",
-            "Vgplay\\Recharges\\Database\\Seeders\\": "Database/Seeders/"
+            "Vgplay\\Recharge\\": "src/",
+            "Vgplay\\Recharge\\Database\\": "Database/",
+            "Vgplay\\Recharge\\Database\\Seeders\\": "Database/Seeders/"
         }
     },
     "authors": [
@@ -19,7 +19,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Vgplay\\Recharges\\Providers\\RechargesServiceProvider"
+                "Vgplay\\Recharge\\Providers\\RechargeServiceProvider"
             ]
         }
     },

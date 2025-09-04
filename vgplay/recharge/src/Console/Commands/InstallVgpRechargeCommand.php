@@ -1,9 +1,9 @@
 <?php
 
-namespace Vgplay\Recharges\Console\Commands;
+namespace Vgplay\Recharge\Console\Commands;
 
 use Illuminate\Console\Command;
-use Vgplay\Recharges\Services\RechargeService;
+use Vgplay\Recharge\Services\Rechargeervice;
 
 class InstallVgpRechargeCommand extends Command
 {
@@ -26,26 +26,27 @@ class InstallVgpRechargeCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(RechargeService $service)
+    // public function handle(Rechargeervice $service)
+    public function handle()
     {
         $this->info('Bắt đầu cài đặt gói Vgp Recharge ...');
 
         // Chạy migrate
-        $this->info('▶ Làm mới migrations của gói MitAdmin...');
-        $this->call('migrate:refresh', ['--path' => 'vendor/vgplay/recharges/src/database/migrations']);
+        $this->info('▶ Làm mới migrations của gói Vgp Recharge...');
+        $this->call('migrate:refresh', ['--path' => 'vendor/vgplay/recharge/src/database/migrations']);
 
         // Chạy Seeder
         $this->info('▶ Chạy Seeder...');
-        $this->call('db:seed', ['--class' => 'Vgplay\Recharges\Database\Seeders\RechargeDatabaseSeeder']);
+        $this->call('db:seed', ['--class' => 'Vgplay\Recharge\Database\Seeders\RechargeDatabaseSeeder']);
 
-        try {
-            $service->syncAll();
-            $this->info('✅ Đồng bộ recharges thành công!');
-            $this->info('🎉 Gói VGP recharge đã được cài đặt thành công!');
-            return self::SUCCESS;
-        } catch (\Throwable $e) {
-            $this->error('❌ Lỗi khi sync recharges: ' . $e->getMessage());
-            return self::FAILURE;
-        }
+        // try {
+        //     $service->syncAll();
+        //     $this->info('✅ Đồng bộ Recharge thành công!');
+        //     $this->info('🎉 Gói VGP Recharge đã được cài đặt thành công!');
+        //     return self::SUCCESS;
+        // } catch (\Throwable $e) {
+        //     $this->error('❌ Lỗi khi sync Recharge: ' . $e->getMessage());
+        //     return self::FAILURE;
+        // }
     }
 }

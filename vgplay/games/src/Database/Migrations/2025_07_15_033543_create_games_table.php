@@ -36,14 +36,16 @@ return new class extends Migration
     public function down(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
-        Schema::dropIfExists('items');
         Schema::dropIfExists('games');
-        Schema::dropIfExists('denominations');
+        Schema::dropIfExists('items');
         Schema::dropIfExists('game_admins');
         Schema::dropIfExists('game_settings');
         Schema::dropIfExists('game_apis');
         Schema::dropIfExists('game_flags');
         Schema::dropIfExists('game_socials');
+        Schema::dropIfExists('game_item');
+        Schema::dropIfExists('purchase_histories');
+        Schema::dropIfExists('game_payment_method');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
     }
 };

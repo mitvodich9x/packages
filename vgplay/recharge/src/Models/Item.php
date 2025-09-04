@@ -2,41 +2,49 @@
 
 namespace Vgplay\Recharge\Models;
 
-use Illuminate\Support\Str;
 use Vgplay\Games\Models\Game;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Item extends Model
 {
     protected $fillable = [
+        'type',
         'name',
         'code',
         'image',
-        'description',
-        'type',
         'unit',
-        'amount',
-        'discount',
-        'details',
-        'is_global',
-        'allow_multiple',
+        'description',
+        'vxu_amount',
+        'discount_percent',
         'limit_per_user',
-        'unlock_min_buys',
-        'unlock_price_ceiling',
-        'active',
-        'sort'
-    ];
-    
-    protected $casts = [
-        'details' => 'array',
-        'is_global' => 'boolean',
-        'allow_multiple' => 'boolean',
-        'active' => 'boolean'
+        'allow_multiple_per_order',
+        'tier',
+        'requires_min_tier',
+        'is_active',
+        'sort',
     ];
 
-    public function games()
+    public function games(): BelongsToMany
     {
-        return $this->belongsToMany(Game::class, 'game_id', 'game_id');
+        return $this->belongsToMany(
+            Game::class,
+            'game_item',
+            'item_id',
+            'game_id',
+            'id',
+            'game_id'
+        )->withTimestamps()->withPivot('is_active');
+    }
+
+    public function details(): HasMany
+    {
+        return $this->hasMany(ItemDetail::class);
+    }
+
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(PurchaseHistory::class);
     }
 }

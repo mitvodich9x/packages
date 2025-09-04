@@ -11,7 +11,8 @@ class RechargeDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(PaymentSeeder::class);
-        $this->call(VxuItemSeeder::class);
+        $this->call(PaymentMethodSeeder::class);
+        $this->call(ItemSeeder::class);
+        $this->call(GameItemSeeder::class);
     }
 }

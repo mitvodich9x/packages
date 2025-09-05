@@ -17,6 +17,7 @@ class GamePaymentMethod extends Model
         'exchange_rate',
         'min_amount',
         'max_amount',
+        'promoption',
         'status'
     ];
 

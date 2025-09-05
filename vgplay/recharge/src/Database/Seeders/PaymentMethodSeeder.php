@@ -29,17 +29,21 @@ class PaymentMethodSeeder extends Seeder
             'zalo' => 1.05,
         ];
 
+        $PROMO_DISPLAY_BY_GAME = [
+            '*' => 0,   // mặc định cho các game khác
+        ];
+
         $MAX_PRICE_BY_ALIAS = [
-            'atm'     => 5_000_000,
-            'visa'    => 5_000_000,
-            'qr'      => 5_000_000,
-            'vgp'     =>   500_000,
-            'momo'    => 1_000_000,
-            'zalo'    => 1_000_000,
-            'apple'   =>   500_000,
-            'google'  =>   500_000,
-            'samsung' =>   500_000,
-            'vxu'     =>         0, // tắt
+            'atm'     => 20000000, // hoặc lớn hơn
+            'visa'    => 20000000,
+            'qr'      => 20000000,
+            'vgp'     => 500000,
+            'momo'    => 1000000,
+            'zalo'    => 1000000,
+            'apple'   => 500000,
+            'google'  => 500000,
+            'samsung' => 500000,
+            'vxu'     => 0, // không dùng để mua Vxu
         ];
 
         $now = now();
@@ -67,7 +71,7 @@ class PaymentMethodSeeder extends Seeder
         DB::table('payment_methods')->upsert(
             $pmRows,
             ['id'], // uniqueBy
-            ['alias','name','image','description','promotion_rate','is_active','sort','updated_at'] // update columns
+            ['alias', 'name', 'image', 'description', 'promotion_rate', 'is_active', 'sort', 'updated_at'] // update columns
         );
 
         // =============== B2) Xây configs cho tất cả games ==================
@@ -84,6 +88,8 @@ class PaymentMethodSeeder extends Seeder
 
         $rows = [];
         foreach ($games as $g) {
+            $promotion = $PROMO_DISPLAY_BY_GAME[$g->game_id] ?? $PROMO_DISPLAY_BY_GAME['*'];
+
             foreach ($allowedAliases as $alias) {
                 $pmId = $methodIdByAlias[$alias] ?? null;
                 if (!$pmId) continue;
@@ -94,6 +100,7 @@ class PaymentMethodSeeder extends Seeder
                     'exchange_rate'     => 100.00,     // 1 unit = 100 VND
                     'min_amount'        => 10_000,
                     'max_amount'        => (int) $MAX_PRICE_BY_ALIAS[$alias],
+                    'promotion'         => (int) $promotion,
                     'status'            => true,
                     'created_at'        => $now,
                     'updated_at'        => $now,
@@ -106,8 +113,8 @@ class PaymentMethodSeeder extends Seeder
         foreach (array_chunk($rows, 1000) as $chunk) {
             DB::table('game_payment_method')->upsert(
                 $chunk,
-                ['game_id','payment_method_id'], // uniqueBy
-                ['exchange_rate','min_amount','max_amount','status','updated_at'] // columns update
+                ['game_id', 'payment_method_id'], // uniqueBy
+                ['exchange_rate', 'min_amount', 'max_amount', 'promotion', 'status', 'updated_at'] // columns update
             );
         }
 
@@ -115,11 +122,11 @@ class PaymentMethodSeeder extends Seeder
         $this->command?->info('Cleaning stale rows in game_payment_method...');
 
         // xoá những row có payment_method_id không nằm trong danh sách methods hiện tại
-        $allMethodIds = collect($methods)->pluck('id')->map(fn($v)=>(int)$v)->all();
+        $allMethodIds = collect($methods)->pluck('id')->map(fn($v) => (int)$v)->all();
         DB::table('game_payment_method')->whereNotIn('payment_method_id', $allMethodIds)->delete();
 
         // xoá những row của games không còn (hiếm khi xảy ra)
-        $allGameIds = $games->pluck('game_id')->map(fn($v)=>(int)$v)->all();
+        $allGameIds = $games->pluck('game_id')->map(fn($v) => (int)$v)->all();
         DB::table('game_payment_method')->whereNotIn('game_id', $allGameIds)->delete();
 
         // đảm bảo alias bị tắt (MAX=0) không còn config (vd: vxu)
@@ -128,7 +135,7 @@ class PaymentMethodSeeder extends Seeder
             ->keys()
             ->map(fn($alias) => $methodIdByAlias[$alias] ?? null)
             ->filter()
-            ->map(fn($v)=>(int)$v)
+            ->map(fn($v) => (int)$v)
             ->values()
             ->all();
 

@@ -52,6 +52,7 @@ class ItemController extends Controller
         $locks = [];
         $boughtCount = [];
 
+        // dd($items);
         if ($vgpId) {
             $paidItemIds = PurchaseHistory::query()
                 ->where('vgp_id', $vgpId)
@@ -85,6 +86,7 @@ class ItemController extends Controller
                 $boughtCount[$it->id] = (int) ($counts[$it->id] ?? 0);
             }
         }
+
 
         return Inertia::render('Pages/GamePage', [
             'game' => [

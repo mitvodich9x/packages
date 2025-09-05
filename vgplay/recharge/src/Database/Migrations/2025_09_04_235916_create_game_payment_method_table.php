@@ -14,8 +14,9 @@ return new class extends Migration {
             $table->unsignedBigInteger('game_id');
             $table->unsignedBigInteger('payment_method_id');
             $table->decimal('exchange_rate', 12, 2)->default(100.00);
-            $table->unsignedBigInteger('min_amount')->default(0);   // VND
-            $table->unsignedBigInteger('max_amount')->default(0);   // VND (0 = tắt)
+            $table->unsignedBigInteger('min_amount')->default(0);
+            $table->unsignedBigInteger('max_amount')->default(0);
+            $table->string('promotion')->nullable();
             $table->boolean('status')->default(true)->index();
             $table->timestamps();
 

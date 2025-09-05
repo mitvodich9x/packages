@@ -2,13 +2,15 @@
 
 namespace Vgplay\Recharge\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Vgplay\Games\Traits\FindGame;
-use Vgplay\Recharge\Models\GamePaymentMethod;
-use Vgplay\Recharge\Models\Item;
-use Vgplay\Recharge\Models\PurchaseHistory;
 use Illuminate\Http\Request;
+use Vgplay\Recharge\Models\Item;
+use Vgplay\Games\Traits\FindGame;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Vgplay\Recharge\Models\PurchaseHistory;
+use Vgplay\Recharge\Models\GamePaymentMethod;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OrderController extends Controller
 {
@@ -63,7 +65,7 @@ class OrderController extends Controller
             ]);
         }
 
-        $priceVnd = (int) round(((int)$record->price_units) * (float) $cfg->exchange_rate);
+        $priceVnd = (int) round(((int)$record->vxu_amount) * (float) $cfg->exchange_rate);
         if ($cfg->max_amount > 0 && ($priceVnd < (int)$cfg->min_amount || $priceVnd > (int)$cfg->max_amount)) {
             throw ValidationException::withMessages([
                 'payment_method_id' => 'Giá trị gói không nằm trong giới hạn của phương thức.',
@@ -113,7 +115,7 @@ class OrderController extends Controller
                 'item_id'           => $record->id,
                 'payment_method_id' => (int) $cfg->payment_method_id,
                 'quantity'          => $qty,
-                'price_units'       => (int) $record->price_units,
+                'vxu_amount'       => (int) $record->vxu_amount,
                 'price_vnd'         => $priceVnd * $qty,
                 'status'            => 'pending',
             ]);

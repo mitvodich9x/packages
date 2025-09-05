@@ -66,26 +66,25 @@ class ItemSeeder extends Seeder
 
         foreach ($packages as $pkg) {
             $type = strtolower(trim($pkg['type']));        // vxu | knb | honngoc | so
-            $unitAlias = trim($pkg['unit']);               // 'Vxu' | 'KNB' | 'Hồn Ngọc' | 'Sò'
+            $unitName = trim($pkg['unit']);               // 'Vxu' | 'KNB' | 'Hồn Ngọc' | 'Sò'
             $name = trim($pkg['name']);
             $img = $pkg['image'] ?? null;
-
+            $priceUnits = (int) ($pkg['vxu_amount'] ?? 0);
             // vxu_amount
-            if ($type === 'vxu') {
-                $priceUnits = (int) ($pkg['vxu_amount'] ?? 0);
-            } else {
-                // Parse số từ "Gói 100 X"
-                $priceUnits = 0;
-                if (preg_match('/Gói\s+([\d\.]+)/u', $name, $m)) {
-                    $priceUnits = (int) str_replace('.', '', $m[1]);
-                }
-                if ($priceUnits <= 0) {
-                    $priceUnits = (int) ($pkg['vxu_amount'] ?? 0);
-                }
-            }
+            // if ($type === 'vxu') {
+            //     $priceUnits = (int) ($pkg['vxu_amount'] ?? 0);
+            // } else {
+            //     // Parse số từ "Gói 100 X"
+            //     $priceUnits = 0;
+            //     // if (preg_match('/Gói\s+([\d\.]+)/u', $name, $m)) {
+            //     //     $priceUnits = (int) str_replace('.', '', $m[1]);
+            //     // }
+            //     if ($priceUnits <= 0) {
+            //         $priceUnits = (int) ($pkg['vxu_amount'] ?? 0);
+            //     }
+            // }
 
-            // code (unique)
-            $code = $pkg['code'] ?: ($type . '_' . $priceUnits);
+            $code = $pkg['code'];
 
             // ===== Defaults theo loại =====
             // Vxu: không tier, không limit, mua nhiều
@@ -118,14 +117,25 @@ class ItemSeeder extends Seeder
                 $requiresMinTier = 0;
             }
 
+            $type = strtolower($pkg['type']);
+            $vxu  = (int) ($pkg['vxu_amount'] ?? 0);
+            $code = $pkg['code'] ?? null;
+
+            // Lookup key: Vxu dùng (type, vxu_amount); còn lại dùng code
+            $lookup = $code
+                ? ['code' => $code]
+                : (($type === 'vxu' && $vxu > 0)
+                    ? ['type' => 'vxu', 'vxu_amount' => $vxu]
+                    : ['name' => $pkg['name']]); // fallback (hiếm khi dùng)
+
             $item = Item::updateOrCreate(
-                ['code' => $code],
+                $lookup,
                 [
                     'type' => $type,
                     'name' => $name,
                     'code' => $code,
                     'image' => $img,
-                    'unit' => $type,            // nội bộ: vxu/knb/honngoc/so
+                    'unit' => $unitName,            // nội bộ: vxu/knb/honngoc/so
                     'description' => $name,
                     'vxu_amount' => $priceUnits,
                     'discount_percent' => 0,

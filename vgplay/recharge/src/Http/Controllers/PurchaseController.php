@@ -35,7 +35,7 @@ class PurchaseController extends Controller
                 'item_id',
                 'payment_method_id',
                 'quantity',
-                'price_units',
+                'vxu_amount',
                 'price_vnd',
                 'status',
                 'created_at',
